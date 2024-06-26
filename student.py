@@ -1,27 +1,33 @@
 class Student:
-    def __init__(self, name, usn, m1,m2):
+    def __init__(self, name, marks):
         self.name = name
-        self.usn = usn
-        self.m1 = m1
-        self.m2 = m2
+        self.marks = marks
+        self.avg = sum(marks) / len(marks)
 
+def getdata(n):
+    students = []
+    for i in range(n):
+        name = input("Enter student's name: ")
+        marks = list(map(int, input("Enter student's marks (separated by space): ").split()))
+        students.append(Student(name, marks))
+    return students
 
-    def __str__(self):
-        return f"Name: {self.name}, USN: {self.usn}, Mark1: {self.m1},Mark2: {self.m2}"
+def print_min_max_avg(students):
+    min_avg = min(students, key=lambda x: x.avg)
+    max_avg = max(students, key=lambda x: x.avg)
+    print("Student with minimum average: ", min_avg.name, "with average: ", min_avg.avg)
+    print("Student with maximum average: ", max_avg.name, "with average: ", max_avg.avg)
 
-st_dict = {}
+def print_rankwise(students):
+    students.sort(key=lambda x: x.avg, reverse=True)
+    for i, student in enumerate(students, 1):
+        print("Rank ", i, ": ", student.name, "with average: ", student.avg)
 
-num = int(input("Enter the number of student:"))
+def main():
+    n = int(input("Enter the number of students: "))
+    students = getdata(n)
+    print_min_max_avg(students)
+    print_rankwise(students)
 
-for i in range(num):
-    name = input(f"Enter name for student {i+1}: ")
-    age = input(f"Enter usn for student {i+1}: ")
-    m1 = input(f"Enter marks of student subject 1: ")
-    m2 = input(f"Enter marks of student subject 2: ")
-
-    student = Student(name, age, m1,m2)
-    st_dict[f"Student {i+1}"] = student
-
-print("\nStudents are :")
-for key, student in st_dict.items():
-    print(f"{key}: {student}")
+if __name__ == "__main__":
+    main()
